@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced CSS Masterclass | Next-Gen Web Design</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Custom Properties with enhanced color system */
+        :root {
+            /* Enhanced color system */
+            --color-primary: oklch(65% 0.25 260);
+            --color-primary-hover: oklch(60% 0.25 260);
+            --color-secondary: oklch(65% 0.25 290);
+            --color-accent: oklch(65% 0.25 330);
+            --color-text: oklch(20% 0.03 260);
+            --color-text-light: oklch(98% 0.01 260);
+            --color-bg: oklch(98% 0.01 260);
+            --color-card: oklch(100% 0 0);
+            --color-shadow: oklch(20% 0.1 260 / 0.1);
+            --color-border: oklch(80% 0.05 260 / 0.5);
+            
+            /* New color enhancements */
+            --color-success: oklch(65% 0.25 145);
+            --color-warning: oklch(75% 0.25 80);
+            --color-danger: oklch(65% 0.25 25);
+            --color-info: oklch(75% 0.15 220);
+            
+            /* Gradient definitions */
+            --gradient-primary: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            --gradient-accent: linear-gradient(135deg, var(--color-accent), var(--color-primary));
+            
+            /* Typography with fluid type scaling */
+            --font-base: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'Source Code Pro', monospace;
+            --text-base: clamp(1rem, 0.75vw + 0.75rem, 1.25rem);
+            --text-scale: 1.25;
+            --text-xs: calc(var(--text-base) / var(--text-scale));
+            --text-sm: calc(var(--text-xs) * var(--text-scale));
+            --text-md: calc(var(--text-sm) * var(--text-scale));
+            --text-lg: calc(var(var(--text-md) * var(--text-scale)));
+            --text-xl: calc(var(--text-lg) * var(--text-scale));
+            --text-xxl: calc(var(--text-xl) * var(--text-scale));
+            
+            /* Enhanced spacing system */
+            --space-unit: 1rem;
+            --space-xxs: calc(var(--space-unit) * 0.25);
+            --space-xs: calc(var(--space-unit) * 0.5);
+            --space-sm: calc(var(--space-unit) * 0.75);
+            --space-md: calc(var(--space-unit) * 1.5);
+            --space-lg: calc(var(--space-unit) * 2);
+            --space-xl: calc(var(--space-unit) * 3);
+            --space-xxl: calc(var(--space-unit) * 4);
+            
+            /* Advanced effects */
+            --shadow-sm: 0 1px 3px var(--color-shadow);
+            --shadow-md: 0 4px 6px -1px var(--color-shadow), 0 2px 4px -1px transparent;
+            --shadow-lg: 0 10px 15px -3px var(--color-shadow), 0 4px 6px -2px transparent;
+            --shadow-xl: 0 20px 25px -5px var(--color-shadow), 0 10px 10px -5px transparent;
+            --shadow-xxl: 0 25px 50px -12px var(--color-shadow);
+            --shadow-inset: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+            
+            --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+            --transition-morph: 600ms cubic-bezier(0.68, -0.6, 0.32, 1.6);
+            
+            /* Advanced borders */
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-full: 9999px;
+            
+            /* Layout enhancements */
+            --max-width: 1440px;
+            --header-height: 5rem;
+            --grid-gap: var(--space-md);
+            --section-padding: var(--space-xl);
+            
+            /* New backdrop effects */
+            --backdrop-blur: blur(16px);
+            --backdrop-brightness: brightness(0.95);
+            
+            /* 3D perspective */
+            --perspective: 1000px;
+        }
+
+        /* Dark mode variables with enhanced contrast */
+        .dark-mode {
+            --color-primary: oklch(70% 0.25 260);
+            --color-primary-hover: oklch(65% 0.25 260);
+            --color-secondary: oklch(70% 0.25 290);
+            --color-text: oklch(90% 0.03 260);
+            --color-text-light: oklch(20% 0.01 260);
+            --color-bg: oklch(10% 0.01 260);
+            --color-card: oklch(15% 0.01 260);
+            --color-shadow: oklch(5% 0.1 260 / 0.3);
+            --color-border: oklch(30% 0.05 260 / 0.3);
+            
+            --backdrop-brightness: brightness(0.7);
+        }
+
+        /* Base styles with enhanced defaults */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: calc(var(--header-height) + var(--space-md));
+            height: 100%;
+            accent-color: var(--color-primary);
+        }
+
+        body {
+            font-family: var(--font-base);
+            font-size: var(--text-base);
+            line-height: 1.6;
+            color: var(--color-text);
+            background-color: var(--color-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            transition: background-color var(--transition-base), color var(--transition-base);
+        }
+
+        /* Enhanced focus styles */
+        :focus-visible {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 2px;
+            border-radius: var(--radius-sm);
+        }
+
+        /* Lamp toggle styles with enhanced physics */
+        .lamp-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            width: 80px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            perspective: var(--perspective);
+        }
+
+        .bulb {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            position: relative;
+            margin-bottom: 10px;
+            transition: all var(--transition-bounce);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform-style: preserve-3d;
+        }
+
+        .celestial-body {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            position: relative;
+            transition: all var(--transition-bounce);
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .sun {
+            background: oklch(90% 0.2 90);
+            box-shadow: 0 0 20px 10px oklch(90% 0.2 90 / 0.4);
+            transform: rotate(0deg) scale(1);
+        }
+
+        .moon {
+            background: oklch(90% 0.01 260);
+            box-shadow: 0 0 20px 10px oklch(90% 0.01 260 / 0.3);
+            transform: rotate(-30deg) scale(0.9);
+        }
+
+        .moon::before {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--color-bg);
+            top: 5px;
+            left: -7px;
+            transition: all var(--transition-bounce);
+        }
+
+        .cord-mechanism {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform-style: preserve-3d;
+        }
+
+        .cord {
+            width: 2px;
+            height: 60px;
+            background: var(--color-text);
+            position: relative;
+            transition: height var(--transition-base);
+            opacity: 0.7;
+            transform: translateZ(0);
+        }
+
+        .cord-handle {
+            width: 20px;
+            height: 6px;
+            background: var(--color-text);
+            border-radius: 3px;
+            cursor: pointer;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            transition: all var(--transition-base), transform var(--transition-bounce);
+            opacity: 0.7;
+        }
+
+        .cord-handle:hover {
+            background: var(--color-primary);
+            opacity: 1;
+            transform: translateX(-50%) scale(1.1);
+        }
+
+        /* Sun rays animation */
+        .sun-ray {
+            position: absolute;
+            background: oklch(90% 0.2 90);
+            width: 4px;
+            height: 12px;
+            border-radius: 2px;
+            transform-origin: center bottom;
+            animation: sunPulse 2s infinite ease-in-out;
+        }
+
+        @keyframes sunPulse {
+            0%, 100% { opacity: 0.8; transform: rotate(var(--rotation)) translateY(-25px) scaleY(1); }
+            50% { opacity: 1; transform: rotate(var(--rotation)) translateY(-25px) scaleY(1.3); }
+        }
+
+        /* Enhanced header with glass morphism */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background: oklch(from var(--color-card) l c h / 0.8);
+            backdrop-filter: var(--backdrop-blur) var(--backdrop-brightness);
+            -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-brightness);
+            box-shadow: var(--shadow-sm);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            transition: all var(--transition-base);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .logo {
+            font-size: var(--text-lg);
+            font-weight: 700;
+            color: var(--color-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            transition: color var(--transition-base);
+        }
+
+        .logo:hover {
+            color: var(--color-primary-hover);
+        }
+
+        .nav {
+            display: flex;
+            gap: var(--space-md);
+        }
+
+        .nav-link {
+            color: var(--color-text);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding: var(--space-xs) 0;
+            transition: color var(--transition-base);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--color-primary);
+            transition: width var(--transition-base);
+        }
+
+        .nav-link:hover {
+            color: var(--color-primary);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Hero section with animated gradient */
+        .hero {
+            padding-top: calc(var(--header-height) + var(--space-xl));
+            padding-bottom: var(--space-xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, oklch(80% 0.2 260 / 0.1), transparent 70%);
+            opacity: 0.5;
+            z-index: 1;
+            animation: gradientPulse 15s infinite alternate;
+        }
+
+        @keyframes gradientPulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        h1 {
+            font-size: var(--text-xxl);
+            line-height: 1.2;
+            margin-bottom: var(--space-md);
+            background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+        }
+
+        h2 {
+            font-size: var(--text-xl);
+            margin-bottom: var(--space-md);
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-size: var(--text-lg);
+            margin-bottom: var(--space-sm);
+        }
+
+        p {
+            margin-bottom: var(--space-md);
+            color: var(--color-text);
+            opacity: 0.9;
+        }
+
+        .author {
+            display: inline-block;
+            font-size: var(--text-sm);
+            color: var(--color-primary);
+            font-weight: 600;
+            margin-top: var(--space-sm);
+        }
+
+        /* Container with advanced constraints */
+        .container {
+            width: 100%;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--space-md);
+        }
+
+        section {
+            padding: var(--section-padding) 0;
+            position: relative;
+        }
+
+        section:nth-child(even) {
+            background: oklch(from var(--color-card) l c h / 0.3);
+        }
+
+        /* Grid layout with intrinsic sizing */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+            gap: var(--grid-gap);
+            margin-top: var(--space-lg);
+        }
+
+        .grid-item {
+            background: var(--color-card);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--transition-bounce), box-shadow var(--transition-base);
+            border: 1px solid var(--color-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .grid-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+
+        .grid-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Flexbox examples with enhanced interactions */
+        .flex-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--grid-gap);
+            margin-top: var(--space-lg);
+        }
+
+        .flex-item {
+            flex: 1 1 300px;
+            background: var(--color-card);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-base);
+            border: 1px solid var(--color-border);
+        }
+
+        .flex-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Navigation example */
+        .nav-example {
+            display: flex;
+            gap: var(--space-xs);
+            margin-top: var(--space-md);
+            flex-wrap: wrap;
+        }
+
+        .nav-example a {
+            padding: var(--space-xs) var(--space-sm);
+            background: var(--color-card);
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            color: var(--color-text);
+            font-size: var(--text-sm);
+            transition: all var(--transition-base);
+            border: 1px solid var(--color-border);
+        }
+
+        .nav-example a:hover {
+            background: var(--color-primary);
+            color: var(--color-text-light);
+            transform: translateY(-2px);
+        }
+
+        /* Enhanced buttons with 3D effect */
+        .animated-button {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-xs);
+            padding: var(--space-sm) var(--space-md);
+            background: var(--color-primary);
+            color: var(--color-text-light);
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all var(--transition-base);
+            box-shadow: 0 4px 0 oklch(from var(--color-primary) calc(l - 10%) c h),
+                        0 6px 10px oklch(from var(--color-primary) l c h / 0.3);
+            transform: translateY(0);
+        }
+
+        .animated-button:hover {
+            background: var(--color-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 oklch(from var(--color-primary) calc(l - 10%) c h),
+                        0 8px 15px oklch(from var(--color-primary) l c h / 0.3);
+        }
+
+        .animated-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 oklch(from var(--color-primary) calc(l - 10%) c h);
+        }
+
+        .animated-button svg {
+            transition: transform var(--transition-base);
+        }
+
+        .animated-button:hover svg {
+            transform: translateX(3px);
+        }
+
+        /* Ripple effect */
+        .ripple-effect {
+            position: absolute;
+            border-radius: 50%;
+            background: oklch(from var(--color-primary) l c h / 0.7);
+            transform: scale(0);
+            animation: ripple var(--transition-base) linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Loading spinner with advanced animation */
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            margin: var(--space-md) auto;
+            border: 4px solid oklch(from var(--color-primary) l c h / 0.2);
+            border-top-color: var(--color-primary);
+            border-radius: 50%;
+            animation: spin 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Image filters with hover effect */
+        .image-effects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--grid-gap);
+            margin-top: var(--space-lg);
+        }
+
+        .filter-example {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: transform var(--transition-base);
+            aspect-ratio: 16/9;
+        }
+
+        .filter-example:hover {
+            transform: scale(1.03);
+        }
+
+        .filter-example img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: filter var(--transition-base);
+        }
+
+        .filter-example::after {
+            content: attr(data-filter);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: var(--space-sm);
+            background: oklch(from var(--color-text) l c h / 0.8);
+            color: var(--color-text-light);
+            text-align: center;
+            font-weight: 600;
+            transform: translateY(100%);
+            transition: transform var(--transition-base);
+        }
+
+        .filter-example:hover::after {
+            transform: translateY(0);
+        }
+
+        .blur img {
+            filter: blur(0px);
+        }
+
+        .blur:hover img {
+            filter: blur(3px);
+        }
+
+        .grayscale img {
+            filter: grayscale(0);
+        }
+
+        .grayscale:hover img {
+            filter: grayscale(1);
+        }
+
+        .brightness img {
+            filter: brightness(1);
+        }
+
+        .brightness:hover img {
+            filter: brightness(1.5);
+        }
+
+        .contrast img {
+            filter: contrast(1);
+        }
+
+        .contrast:hover img {
+            filter: contrast(1.5);
+        }
+
+        /* CSS shapes with animations */
+        .shape-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--grid-gap);
+            margin-top: var(--space-lg);
+        }
+
+        .shape {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-light);
+            font-weight: 600;
+            font-size: var(--text-lg);
+            transition: all var(--transition-bounce);
+            box-shadow: var(--shadow-md);
+        }
+
+        .shape:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        .circle {
+            background: var(--color-primary);
+            border-radius: 50%;
+            clip-path: circle(50% at 50% 50%);
+        }
+
+        .triangle {
+            background: var(--color-secondary);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+
+        .polygon {
+            background: var(--color-accent);
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        }
+
+        .star {
+            background: var(--color-warning);
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+
+        /* Footer with subtle gradient */
+        footer {
+            text-align: center;
+            padding: var(--space-xl) 0;
+            background: linear-gradient(to bottom, oklch(from var(--color-card) l c h / 0.5), var(--color-bg));
+            margin-top: auto;
+        }
+
+        /* Scroll indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: var(--gradient-primary);
+            z-index: 1000;
+            transition: width 100ms linear;
+        }
+
+        /* Tooltip for code elements */
+        code {
+            font-family: var(--font-mono);
+            background: oklch(from var(--color-card) l c h / 0.5);
+            padding: 0.2em 0.4em;
+            border-radius: var(--radius-sm);
+            font-size: var(--text-sm);
+            position: relative;
+        }
+
+        code:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--color-text);
+            color: var(--color-text-light);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            font-size: var(--text-xs);
+            white-space: nowrap;
+            margin-bottom: var(--space-xs);
+            opacity: 0;
+            transition: opacity var(--transition-base);
+        }
+
+        code:hover::after {
+            opacity: 1;
+        }
+
+        /* 3D card effect */
+        .card-3d {
+            transform-style: preserve-3d;
+            transition: transform var(--transition-base);
+        }
+
+        .card-3d:hover {
+            transform: rotateY(10deg) rotateX(5deg) translateZ(10px);
+        }
+
+        /* Scroll animations */
+        .animate-in {
+            animation: fadeInUp var(--transition-bounce) forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            :root {
+                --section-padding: var(--space-lg);
+            }
+            
+            .nav {
+                display: none;
+            }
+            
+            .hero-content {
+                text-align: left;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            :root {
+                --color-bg: white;
+                --color-text: black;
+                --color-card: white;
+            }
+            
+            .lamp-toggle, .scroll-progress {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+    
+    <div class="lamp-toggle">
+        <div class="bulb">
+            <div class="celestial-body moon" id="celestial-body"></div>
+        </div>
+        <div class="cord-mechanism">
+            <div class="cord" id="cord">
+                <div class="cord-handle" id="handle"></div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">CSS Mastery</a>
+            <nav class="nav">
+                <a href="#grid" class="nav-link">Grid</a>
+                <a href="#flexbox" class="nav-link">Flexbox</a>
+                <a href="#variables" class="nav-link">Variables</a>
+                <a href="#animations" class="nav-link">Animations</a>
+                <a href="#filters" class="nav-link">Filters</a>
+                <a href="#shapes" class="nav-link">Shapes</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-content">
+                <h1>Advanced CSS Masterclass</h1>
+                <p>Next-generation web design techniques with cutting-edge CSS features for professional, responsive, and engaging digital experiences.</p>
+                <span class="author">by Varun Raju</span>
+            </div>
+        </section>
+
+        <section id="grid">
+            <div class="container">
+                <h2>CSS Grid Layout</h2>
+                <p>Master complex two-dimensional layouts with precise control over rows and columns using modern CSS Grid techniques.</p>
+                
+                <div class="grid-layout">
+                    <div class="grid-item card-3d">
+                        <h3>Responsive Structures</h3>
+                        <p>Create fluid layouts that adapt seamlessly across all devices using <code data-tooltip="Defines grid template areas">grid-template-areas</code> and intrinsic sizing.</p>
+                    </div>
+                    <div class="grid-item card-3d">
+                        <h3>Advanced Placement</h3>
+                        <p>Utilize <code data-tooltip="Places items on the grid">grid-column</code> and <code data-tooltip="Places items on the grid">grid-row</code> with line names for precise item placement.</p>
+                    </div>
+                    <div class="grid-item card-3d">
+                        <h3>Dynamic Sizing</h3>
+                        <p>Implement flexible layouts with <code data-tooltip="Defines size range">minmax()</code>, <code data-tooltip="Auto-fit columns">auto-fit</code>, and fractional units.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="flexbox">
+            <div class="container">
+                <h2>Flexbox Techniques</h2>
+                <p>Harness the power of Flexbox for sophisticated one-dimensional layouts with perfect alignment control.</p>
+                
+                <div class="flex-container">
+                    <div class="flex-item card-3d">
+                        <h3>Navigation Systems</h3>
+                        <p>Build adaptive navigation that responds to content changes and viewport sizes.</p>
+                        <div class="nav-example">
+                            <a href="index.html">Home</a>
+                            <a href="password.html">Password</a>
+                            <a href="https://vrwebs.github.io/browser/">Browser</a>
+                            <a href="https://vrwebs.github.io/.wt/">Dark</a>
+                        </div>
+                    </div>
+                    <div class="flex-item card-3d">
+                        <h3>Card Layouts</h3>
+                        <p>Design flexible card components with consistent spacing and alignment.</p>
+                        <div class="card-preview" style="margin-top: var(--space-md); height: 100px; background: var(--color-primary); opacity: 0.1; border-radius: var(--radius-md);"></div>
+                    </div>
+                    <div class="flex-item card-3d">
+                        <h3>Form Controls</h3>
+                        <p>Perfectly align form elements with Flexbox's distribution capabilities.</p>
+                        <div class="form-preview" style="margin-top: var(--space-md); display: flex; flex-direction: column; gap: var(--space-xs);">
+                            <div style="height: 20px; background: var(--color-primary); opacity: 0.1; border-radius: var(--radius-sm);"></div>
+                            <div style="height: 40px; background: var(--color-primary); opacity: 0.1; border-radius: var(--radius-sm);"></div>
+                            <div style="height: 20px; background: var(--color-primary); opacity: 0.1; border-radius: var(--radius-sm); width: 70%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="variables">
+            <div class="container">
+                <h2>CSS Custom Properties</h2>
+                <p>Implement maintainable design systems with dynamic CSS variables and runtime theming.</p>
+                
+                <div class="grid-layout">
+                    <div class="grid-item card-3d">
+                        <h3>Design Tokens</h3>
+                        <p>Centralize colors, spacing, and typography in variables for consistency.</p>
+                        <pre style="margin-top: var(--space-md); font-size: var(--text-xs); background: oklch(from var(--color-card) l c h / 0.5); padding: var(--space-sm); border-radius: var(--radius-sm); overflow: auto;"><code>:root {
+  --color-primary: #4a6bdf;
+  --space-unit: 1rem;
+  --font-base: 'Inter', sans-serif;
+}</code></pre>
+                    </div>
+                    <div class="grid-item card-3d">
+                        <h3>Dynamic Updates</h3>
+                        <p>Modify variables in real-time for user preferences and runtime theming.</p>
+                        <button class="animated-button" id="themeToggle" style="margin-top: var(--space-md);">
+                            <span>Toggle Theme</span>
+                        </button>
+                    </div>
+                    <div class="grid-item card-3d">
+                        <h3>Advanced Calculations</h3>
+                        <p>Use <code data-tooltip="Perform calculations in CSS">calc()</code> with variables for responsive sizing relationships.</p>
+                        <pre style="margin-top: var(--space-md); font-size: var(--text-xs); background: oklch(from var(--color-card) l c h / 0.5); padding: var(--space-sm); border-radius: var(--radius-sm); overflow: auto;"><code>.element {
+  padding: calc(var(--space-unit) * 2);
+  font-size: calc(var(--text-base) * 1.25);
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="animations">
+            <div class="container">
+                <h2>CSS Animations</h2>
+                <p>Create performant, engaging microinteractions with advanced CSS animation techniques.</p>
+                
+                <div class="grid-layout">
+                    <div class="grid-item card-3d">
+                        <h3>State Transitions</h3>
+                        <button class="animated-button">
+                            <span>Hover Effect</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </button>
+                        <p>Smooth property changes between states with <code data-tooltip="Transition between states">transition</code>.</p>
+                    </div>
+                    <div class="grid-item card-3d">
+                        <h3>Keyframe Animations</h3>
+                        <div class="loading-spinner"></div>
+                        <p>Complex sequenced animations with <code data-tooltip="Define animation sequence">@keyframes</code> composition.</p>
+                    </div>
+                    <div class="grid-item card-3d">
+                        <h3>Performance</h3>
+                        <p>Optimize animations using <code data-tooltip="Hint for browser optimization">will-change</code> and hardware acceleration.</p>
+                        <div style="margin-top: var(--space-md); width: 100%; height: 100px; background: linear-gradient(90deg, var(--color-primary), var(--color-secondary)); border-radius: var(--radius-md); transform: translateZ(0);"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="filters">
+            <div class="container">
+                <h2>CSS Filters & Blend Modes</h2>
+                <p>Apply advanced visual effects and compositing techniques with pure CSS.</p>
+                
+                <div class="image-effects">
+                    <div class="filter-example blur" data-filter="Blur">
+                        <img src="C:\Users\USER\Downloads\2608597.jpg" alt="Nature" loading="lazy">
+                    </div>
+                    <div class="filter-example grayscale" data-filter="Grayscale">
+                        <img src="C:\Users\USER\Downloads\WhatsApp Image 2021-04-25 at 10.54.18 PM.jpeg" alt="Bird" loading="lazy">
+                    </div>
+                    <div class="filter-example brightness" data-filter="Brightness">
+                        <img src="C:\Users\USER\Downloads\bb.jpg" alt="City" loading="lazy">
+                    </div>
+                    <div class="filter-example contrast" data-filter="Contrast">
+                        <img src="C:\Users\USER\Downloads\14193339978.webp" alt="Technology" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="shapes">
+            <div class="container">
+                <h2>CSS Shapes & Clipping</h2>
+                <p>Break free from rectangular constraints with advanced clipping and shape techniques.</p>
+                
+                <div class="shape-container">
+                    <div class="shape circle">Circle</div>
+                    <div class="shape triangle">Triangle</div>
+                    <div class="shape polygon">Diamond</div>
+                    <div class="shape star">Star</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Thank you for exploring advanced CSS techniques with us</p>
+        </div>
+    </footer>
+
+    <script>
+        // Enhanced lamp toggle functionality with physics
+        const celestialBody = document.getElementById('celestial-body');
+        const cord = document.getElementById('cord');
+        const handle = document.getElementById('handle');
+        const body = document.body;
+        const scrollProgress = document.getElementById('scrollProgress');
+        const themeToggle = document.getElementById('themeToggle');
+        
+        let isSun = false;
+        let isDragging = false;
+        let startY = 0;
+        let pullDistance = 0;
+        const maxPull = 40;
+        let lastPullTime = 0;
+        
+        // Create sun rays with individual animations
+        function createSunRays() {
+            celestialBody.innerHTML = '';
+            if (!isSun) return;
+            
+            for (let i = 0; i < 8; i++) {
+                const ray = document.createElement('div');
+                ray.className = 'sun-ray';
+                ray.style.setProperty('--rotation', `${i * 45}deg`);
+                ray.style.animationDelay = `${i * 0.1}s`;
+                celestialBody.appendChild(ray);
+            }
+        }
+        
+        // Initial setup
+        createSunRays();
+        
+        // Enhanced event handlers with physics
+        handle.addEventListener('mousedown', startDrag);
+        handle.addEventListener('touchstart', startDrag);
+        
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('touchmove', drag);
+        
+        document.addEventListener('mouseup', endDrag);
+        document.addEventListener('touchend', endDrag);
+        
+        // Click handler with bounce effect
+        handle.addEventListener('click', (e) => {
+            if (Date.now() - lastPullTime > 300) {
+                toggleCelestial();
+            }
+        });
+        
+        // Theme toggle button
+        if (themeToggle) {
+            themeToggle.addEventListener('click', toggleCelestial);
+        }
+        
+        function startDrag(e) {
+            isDragging = true;
+            startY = e.clientY || e.touches[0].clientY;
+            cord.style.transition = 'none';
+            handle.style.transition = 'none';
+            e.preventDefault();
+        }
+        
+        function drag(e) {
+            if (!isDragging) return;
+            
+            const clientY = e.clientY || e.touches[0].clientY;
+            const deltaY = clientY - startY;
+            
+            // Apply physics with easing
+            pullDistance = Math.min(Math.max(deltaY, 0), maxPull);
+            const easedDistance = easeOutQuad(pullDistance / maxPull) * maxPull;
+            
+            // Update cord length and handle position
+            cord.style.height = `${60 - easedDistance}px`;
+            handle.style.bottom = `${-easedDistance}px`;
+        }
+        
+        function endDrag(e) {
+            if (!isDragging) return;
+            
+            isDragging = false;
+            lastPullTime = Date.now();
+            
+            // Spring animation when released
+            const springBack = () => {
+                cord.style.height = '60px';
+                handle.style.bottom = '0px';
+                cord.style.transition = 'height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                handle.style.transition = 'bottom 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                
+                setTimeout(() => {
+                    cord.style.transition = '';
+                    handle.style.transition = '';
+                }, 500);
+            };
+            
+            // Toggle if pulled far enough
+            if (pullDistance > 20) {
+                toggleCelestial();
+                setTimeout(springBack, 100);
+            } else {
+                springBack();
+            }
+            
+            pullDistance = 0;
+        }
+        
+        function toggleCelestial() {
+            isSun = !isSun;
+            
+            // Animate celestial body transformation
+            celestialBody.style.transform = isSun 
+                ? 'rotate(0deg) scale(1.2)' 
+                : 'rotate(-30deg) scale(0.9)';
+            
+            setTimeout(() => {
+                if (isSun) {
+                    celestialBody.classList.remove('moon');
+                    celestialBody.classList.add('sun');
+                    body.classList.add('dark-mode');
+                } else {
+                    celestialBody.classList.remove('sun');
+                    celestialBody.classList.add('moon');
+                    body.classList.remove('dark-mode');
+                }
+                
+                createSunRays();
+                
+                // Final animation
+                celestialBody.style.transform = isSun ? 'rotate(0deg) scale(1)' : 'rotate(-30deg) scale(0.9)';
+            }, 200);
+        }
+        
+        // Easing function for smooth dragging
+        function easeOutQuad(t) {
+            return t * (2 - t);
+        }
+        
+        // Scroll progress indicator
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+            scrollProgress.style.width = scrollPercent + '%';
+        });
+        
+        // Enhanced DOMContentLoaded with error handling
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                // Smooth scrolling for anchor links with offset
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const targetId = this.getAttribute('href');
+                        const target = document.querySelector(targetId);
+                        if (target) {
+                            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+                            const offsetPosition = targetPosition - (window.innerWidth > 768 ? 100 : 80);
+                            
+                            window.scrollTo({
+                                top: offsetPosition,
+                                behavior: 'smooth'
+                            });
+                            
+                            // Update URL without jumping
+                            if (history.pushState) {
+                                history.pushState(null, null, targetId);
+                            } else {
+                                location.hash = targetId;
+                            }
+                        }
+                    });
+                });
+                
+                const addRippleEffect = (button) => {
+                    button.addEventListener('click', function(e) {
+                        const rect = this.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        
+                        const ripple = document.createElement('span');
+                        ripple.className = 'ripple-effect';
+                        ripple.style.left = `${x}px`;
+                        ripple.style.top = `${y}px`;
+                        
+                        // Random size for organic feel
+                        const size = Math.max(rect.width, rect.height) * (0.8 + Math.random() * 0.4);
+                        ripple.style.width = `${size}px`;
+                        ripple.style.height = `${size}px`;
+                        
+                        this.appendChild(ripple);
+                        
+                        setTimeout(() => {
+                            ripple.remove();
+                        }, 600);
+                    });
+                };
+                
+                document.querySelectorAll('.animated-button').forEach(button => {
+                    addRippleEffect(button);
+                });
+                
+                // Intersection Observer with staggered animations
+                const animateOnScroll = (entries, observer) => {
+                    entries.forEach((entry, index) => {
+                        if (entry.isIntersecting) {
+                            setTimeout(() => {
+                                entry.target.classList.add('animate-in');
+                                observer.unobserve(entry.target);
+                            }, index * 100);
+                        }
+                    });
+                };
+                
+                const observer = new IntersectionObserver(animateOnScroll, {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -100px 0px'
+                });
+                
+                document.querySelectorAll('section, .grid-item, .flex-item, .filter-example, .shape').forEach(el => {
+                    observer.observe(el);
+                });
+                
+                // Preload hover effects
+                document.querySelectorAll('.grid-item, .flex-item').forEach(el => {
+                    el.style.willChange = 'transform, box-shadow';
+                });
+                
+                document.querySelectorAll('.card-3d').forEach(card => {
+                    card.addEventListener('mousemove', (e) => {
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+                        
+                        const angleY = (x - centerX) / 20;
+                        const angleX = (centerY - y) / 20;
+                        
+                        card.style.transform = `rotateY(${angleY}deg) rotateX(${angleX}deg) translateZ(10px)`;
+                    });
+                    
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = 'rotateY(0) rotateX(0) translateZ(0)';
+                    });
+                });
+                
+            } catch (error) {
+                console.error('Error initializing scripts:', error);
+            }
+        });
+        
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').then(registration => {
+                    console.log('ServiceWorker registration successful');
+                }).catch(err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
